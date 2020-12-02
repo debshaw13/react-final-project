@@ -1,14 +1,5 @@
 import React from "react";
-
-const checkStatus = (response) => {
-  if (response.ok) {
-    // .ok returns true if response status is 200-299
-    return response;
-  }
-  throw new Error('Request was either a 404 or 500');
-}
-
-const json = (response) => response.json()
+import { json, checkStatus } from './utils';
 
 class CurrencyConverter extends React.Component {
   constructor(props) {
@@ -18,8 +9,8 @@ class CurrencyConverter extends React.Component {
       rates: [],
     };
 
+    this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -31,31 +22,25 @@ class CurrencyConverter extends React.Component {
     .then(checkStatus)
       .then(json)
       .then((response) => {
-        this.setState({rates: response.rates});
+        this.setState({rates: Object.entries(response.rates)});
       })
       .catch(error => {
         console.error(error.message);
       })
   }
 
-  handleChange(event) {
+  handleInput(event) {
     this.setState({ base_rate: event.target.value });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    let { base_rate } = this.state;
-      base_rate = base_rate.trim();
-      if (!base_rate || base_rate.length !== 3) {
-        return;
-      }
+  handleChange(event) {
+    //event.preventDefault();
 
     fetch("https://alt-exchange-rate.herokuapp.com/latest?base=" + this.state.base_rate)
     .then(checkStatus)
       .then(json)
       .then((response) => {
-        this.setState({rates: response.rates});
-        console.log(this.state.rates)
+        this.setState({rates: Object.entries(response.rates)});
       })
       .catch(error => {
         console.error(error.message);
@@ -67,23 +52,67 @@ class CurrencyConverter extends React.Component {
   }
 
   render() {
+    const { base_rate, rates } = this.state;
+
     return (
       <div className="container">
         <div className="row">
           <div className="col-12">
-            <form onSubmit={this.handleSubmit} className="form-inline my-4">
-              <input
-                type="text"
-                className="form-control mr-sm-2 mb-2"
-                placeholder="USD"
-                onChange={this.handleChange}
-              />
-              <button type="submit" className="btn btn-primary mb-2">Submit</button>
-            </form>
+            <select onInput={this.handleInput} onChange={this.handleChange} value={base_rate}>
+              <option>USD</option>
+              <option>EUR</option>
+              <option>GBP</option>
+              <option>AUD</option>
+              <option>BGN</option>
+              <option>BRL</option>
+              <option>CAD</option>
+              <option>CHF</option>
+              <option>CNY</option>
+              <option>CZK</option>
+              <option>DKK</option>
+              <option>HKD</option>
+              <option>HRK</option>
+              <option>HUF</option>
+              <option>IDR</option>
+              <option>ILS</option>
+              <option>INR</option>
+              <option>ISK</option>
+              <option>JPY</option>
+              <option>KRW</option>
+              <option>MXN</option>
+              <option>MYR</option>
+              <option>NOK</option>
+              <option>NZD</option>
+              <option>PHP</option>
+              <option>PLN</option>
+              <option>RON</option>
+              <option>RUB</option>
+              <option>SEK</option>
+              <option>SGD</option>
+              <option>THB</option>
+              <option>TRY</option>
+              <option>ZAR</option>
+            </select>
+          </div>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Currency</td>
+                  <td>Rate</td>
+                  <td>Inverse rate</td>
+                </tr>
+                {rates.map((element, index) => <tr key={index}>
+                  <td>{element[0]}</td>
+                  <td>{element[1]}</td>
+                  <td>{1 / element[1]}</td>
+                </tr>)}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
