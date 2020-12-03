@@ -54,11 +54,51 @@ class CurrencyConverter extends React.Component {
   render() {
     const { base_rate, rates } = this.state;
 
+    const numberProcessor = (number) => {
+      if (number < 0.0001) {
+        return number.toFixed(6);
+      } else if (number < 0.001) {
+        return number.toFixed(5);
+      } else if (number < 0.01) {
+        return number.toFixed(4);
+      } else if (number < 1) {
+        return number.toFixed(3);
+      } else if (number < 99) {
+        return number.toFixed(2);
+      } else if (number > 1000) {
+        return number.toFixed(0);
+      } else {
+        return number.toFixed(1);
+      }
+    }
+
+    const processedRates = rates.map((rate) => {
+      const thisRate = parseFloat(rate[1]);
+      return numberProcessor(thisRate);
+    });
+
+    const inverseRates = rates.map((rate) => {
+      const thisInverseRate = 1 / (parseFloat(rate[1]));
+      return numberProcessor(thisInverseRate);
+    });
+
     return (
-      <div className="container">
+      <div className="container p-0">
         <div className="row">
-          <div className="col-12">
-            <select onInput={this.handleInput} onChange={this.handleChange} value={base_rate}>
+          <div className="col-4 col-md-5 p-0">
+          </div>
+          <div className="col-4 col-md-2 p-0">
+            <h5 className="text-center">Currency Table</h5>
+            <hr />
+          </div>
+          <div className="col-4 col-md-5 p-0">
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-4 col-md-5 p-0">
+          </div>
+          <div className="col-4 col-md-2 p-0">
+            <select className="custom-select bg-primary text-white" onInput={this.handleInput} onChange={this.handleChange} value={base_rate}>
               <option>USD</option>
               <option>EUR</option>
               <option>GBP</option>
@@ -93,22 +133,34 @@ class CurrencyConverter extends React.Component {
               <option>TRY</option>
               <option>ZAR</option>
             </select>
+            <br />
+            <br />
           </div>
-          <div>
-            <table>
-              <tbody>
+          <div className="col-4 col-md-5 p-0">
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-1 col-md-3 p-0">
+          </div>
+          <div className="col-10 col-md-6 p-2">
+            <table className="table table-striped">
+              <thead className="thead-dark">
                 <tr>
-                  <td>Currency</td>
-                  <td>Rate</td>
-                  <td>Inverse rate</td>
+                  <th scope="col">Currency</th>
+                  <th className="text-center" scope="col">Exchange Rate</th>
+                  <th className="text-center" scope="col">Inverse Exchange Rate</th>
                 </tr>
+              </thead>
+              <tbody>
                 {rates.map((element, index) => <tr key={index}>
                   <td>{element[0]}</td>
-                  <td>{element[1]}</td>
-                  <td>{1 / element[1]}</td>
+                  <td className="text-center">{processedRates[index]}</td>
+                  <td className="text-center">{(inverseRates[index])}</td>
                 </tr>)}
               </tbody>
             </table>
+          </div>
+          <div className="col-1 col-md-3 p-0">
           </div>
         </div>
       </div>
