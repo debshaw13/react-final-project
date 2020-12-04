@@ -1,12 +1,14 @@
 import React from 'react';
 import Navbar from './Navbar.js';
-import CurrencyConverter from './Home.js';
+import Home from './Home.js';
+import Footer from './Footer.js';
 
 function App() {
   return (
     <div>
       <Navbar />
-      <CurrencyConverter />
+      <Home />
+      <Footer />
     </div>
   );
 }

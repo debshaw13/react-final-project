@@ -1,7 +1,7 @@
 import React from "react";
 import { json, checkStatus } from './utils';
 
-class CurrencyConverter extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,12 +47,8 @@ class CurrencyConverter extends React.Component {
       })
   }
 
-  componentWillUnmount () {
-    // run code just before component is removed from the DOM
-  }
-
   render() {
-    const { base_rate, rates } = this.state;
+    const { rates } = this.state;
 
     const rateProcessor = (rawRate) => {
       if (rawRate < 0.0001) {
@@ -134,4 +130,4 @@ class CurrencyConverter extends React.Component {
   }
 }
 
-export default CurrencyConverter;
+export default Home;
