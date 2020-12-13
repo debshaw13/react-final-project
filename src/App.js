@@ -1,13 +1,13 @@
 import React from 'react';
 import Navbar from './Navbar.js';
-import Home from './Home.js';
+import CurrencyApp from './CurrencyApp.js';
 import Footer from './Footer.js';
 
 function App() {
   return (
     <div>
       <Navbar />
-      <Home />
+      <CurrencyApp />
       <Footer />
     </div>
   );

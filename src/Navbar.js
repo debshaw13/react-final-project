@@ -6,8 +6,8 @@ const Navbar = () => {
       <div className="d-none d-lg-flex flex-grow-1 mx-auto" id="lgNavbar">
         <div className="navbar-brand my-auto ml-3" id="brand" href="#">React Currency Converter</div>
         <div className="navbar-nav ml-auto">
-          <a className="nav-item nav-link px-3 my-2" href="#currency-table">Currency Table</a>
-          <a className="nav-item nav-link px-3 mr-2 my-2" href="#currency-converter">Currency Converter</a>
+          <a className="nav-item nav-link px-3 my-2" href="#currency-converter">Currency Converter</a>
+          <a className="nav-item nav-link px-3 mr-2 my-2" href="#currency-table">Currency Table</a>
         </div>
       </div>
 
@@ -17,8 +17,8 @@ const Navbar = () => {
       </div>
       <div className="collapse navbar-collapse order-3" id="navbarMenu">
         <div className="nav-item dropdown">
-        <a className="nav-item nav-link p-3 m-2" href="#currency-table">Currency Table</a>
         <a className="nav-item nav-link p-3 m-2" href="#currency-converter">Currency Converter</a>
+        <a className="nav-item nav-link p-3 m-2" href="#currency-table">Currency Table</a>
         </div>
       </div>
 
